@@ -3,56 +3,48 @@ import Layout from '../layouts/Layout.astro';
 ---
 <Layout>
   <section class="hero">
-    <p class="eyebrow">AI AGENT · MCP · CAD · SOLIDWORKS</p>
-    <h1>Building reliable AI agents for engineering software.</h1>
-    <p class="lead">你好，我是 Wang。我正在把 SolidWorks 自动化系统继续推进成一个可规划、可观察、可评估、可恢复的 CAD Agent，重点关注真实工程软件里的 Tool Use、长任务执行、CAD State 与 Agent Reliability。</p>
+    <p class="eyebrow">LEARNING · PROJECTS · NOTES</p>
+    <h1>学习、做项目，也记录过程。</h1>
+    <p class="lead">你好，我是 Wang，一名大学生。这里主要记录我的学习笔记、项目实践，以及平时折腾编程、AI、Agent、MCP、CAD 和工程软件时遇到的问题与收获。</p>
     <div class="cta">
-      <a class="button primary" href="/projects">View Project</a>
-      <a class="button" href="/blog">Technical Notes</a>
+      <a class="button primary" href="/notes">学习笔记</a>
+      <a class="button" href="/blog">博客</a>
+      <a class="button" href="/projects">项目</a>
       <a class="button" href="https://github.com/wwwyyyhhh0520">GitHub</a>
     </div>
   </section>
 
   <section class="section-block">
     <div class="section-head">
-      <p class="eyebrow">CURRENT SYSTEM</p>
-      <h2>From deterministic CAD automation to agentic workflows</h2>
+      <p class="eyebrow">RECENTLY</p>
+      <h2>最近在学和做的东西</h2>
     </div>
     <div class="grid">
-      <div class="card"><p class="kicker">01 · Execution</p><h3>SolidWorks Automation</h3><p>已覆盖零件/装配体工程图生成、BOM、气泡标注、布局检测，以及螺纹与静态干涉相关审核流程。</p></div>
-      <div class="card"><p class="kicker">02 · Tool Layer</p><h3>MCP + Async Worker</h3><p>通过 MCP 暴露 CAD 工具，并用 Worker + job_id + polling 执行长任务，把 Agent 调用与 SolidWorks 执行过程解耦。</p></div>
-      <div class="card"><p class="kicker">03 · Reliability</p><h3>Regression & Boundaries</h3><p>自动化流程已有回归测试与结构化结果输出，同时明确区分自动审核结果与最终工程设计批准。</p></div>
+      <div class="card"><p class="kicker">01 · Learning</p><h3>AI & Scientific Computing</h3><p>记录神经网络、PINN、PDE、PyTorch 等学习过程，把零散知识慢慢整理成自己的笔记。</p></div>
+      <div class="card"><p class="kicker">02 · Project</p><h3>Agent + MCP + CAD</h3><p>尝试把 Agent、MCP 和 SolidWorks 自动化结合起来，在实际项目中学习工具调用、任务执行和工程软件自动化。</p></div>
+      <div class="card"><p class="kicker">03 · Notes</p><h3>持续记录</h3><p>把做项目时遇到的问题、解决方法、失败尝试和新的想法记录下来，方便以后回顾。</p></div>
     </div>
   </section>
 
   <section class="section-block">
     <div class="section-head">
-      <p class="eyebrow">FEATURED PROJECT</p>
-      <h2>CAD Agent × MCP × SolidWorks</h2>
+      <p class="eyebrow">CURRENT PROJECT</p>
+      <h2>Agent × MCP × SolidWorks</h2>
     </div>
     <div class="project-card">
       <div>
-        <p>当前系统已经具备可运行的 CAD execution layer。下一阶段重点不是继续堆 API，而是在已有工具层上建立 Agent planning、CAD state representation、evaluation 与 failure recovery。</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span><span class="tag">Async Worker</span><span class="tag">Agent Evaluation</span></div>
+        <p>目前在尝试用 Python、MCP 和 SolidWorks API 做一些 CAD 自动化，并继续学习怎样让 Agent 调用这些工具完成更完整的任务。这个项目还在不断学习和完善中。</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span><span class="tag">Agent</span></div>
       </div>
       <div class="architecture">
-        <span>User / Task</span><b>↓</b><span>Agent / Planner</span><b>↓</b><span>MCP Tools</span><b>↓</b><span>Async Worker</span><b>↓</b><span>SolidWorks</span><b>↓</b><span>Structured Observation</span>
+        <span>Task</span><b>↓</b><span>Agent</span><b>↓</b><span>MCP Tools</span><b>↓</b><span>Worker</span><b>↓</b><span>SolidWorks</span>
       </div>
     </div>
-    <p><a href="/projects">Read the project breakdown →</a></p>
+    <p><a href="/projects">查看项目记录 →</a></p>
   </section>
 
   <section class="section-block">
-    <div class="section-head"><p class="eyebrow">WHAT I AM EXPLORING</p><h2>Three questions I care about</h2></div>
-    <div class="grid">
-      <div class="card"><h3>How should an Agent understand CAD state?</h3><p>不是把整个模型原始数据塞进上下文，而是寻找适合 reasoning 的结构化状态表示。</p></div>
-      <div class="card"><h3>How do we evaluate a CAD Agent?</h3><p>从“Demo 能跑”转向 task success、tool selection、recovery、latency 与可复现实验。</p></div>
-      <div class="card"><h3>What happens when tools fail?</h3><p>关注 timeout、invalid state、partial success、retry、replan 与 human-in-the-loop 等真实失败场景。</p></div>
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="section-head"><p class="eyebrow">LATEST NOTE</p><h2>Writing the system as I build it</h2></div>
-    <div class="card"><h3><a href="/blog/from-cad-automation-to-agent">从 CAD Automation 到 CAD Agent：为什么我要继续做 Agent 层</a></h3><p>记录项目从确定性自动化向 Agentic workflow 演进时，我真正想解决的问题，以及为什么 MCP 本身还不是 Agent。</p></div>
+    <div class="section-head"><p class="eyebrow">ABOUT THIS SITE</p><h2>这是我的个人学习记录</h2></div>
+    <div class="card"><p>这里不会只写某一个方向。学到新的东西、做了新的项目、踩了坑或者解决了一个问题，我都会尽量整理下来。希望几年后回头看时，能看到自己一路学过什么、做过什么。</p></div>
   </section>
 </Layout>
