@@ -1,5 +1,5 @@
 ---
-const { title = 'Wang | AI Agent × MCP × CAD', description = 'Building reliable AI agents for engineering software.' } = Astro.props;
+const { title = 'Wang | Blog', description = 'Wang 的个人博客：编程、AI、Agent、CAD、算法、阅读与学习记录。' } = Astro.props;
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -38,7 +38,7 @@ const { title = 'Wang | AI Agent × MCP × CAD', description = 'Building reliabl
       .section-head { margin-bottom: 24px; max-width: 760px; }
       .section-head .eyebrow { margin-bottom: 8px; }
       .cta { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
-      .button { padding: 10px 17px; border-radius: 10px; border: 1px solid #334353; color: #dce5ed; }
+      .button { display: inline-block; padding: 10px 17px; border-radius: 10px; border: 1px solid #334353; color: #dce5ed; }
       .button.primary { background: #d8f3ee; color: #08100f; border-color: #d8f3ee; font-weight: 650; }
       .project-card { border: 1px solid #273441; border-radius: 20px; padding: 28px; background: #0e151c; display: grid; grid-template-columns: 1.3fr .7fr; gap: 34px; align-items: center; }
       .architecture { display: flex; flex-direction: column; gap: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .86rem; }
@@ -55,8 +55,8 @@ const { title = 'Wang | AI Agent × MCP × CAD', description = 'Building reliabl
     </style>
   </head>
   <body>
-    <header><nav class="wrap"><a href="/"><strong>Wang / Lab Notes</strong></a><div class="links"><a href="/projects">Projects</a><a href="/blog">Blog</a><a href="/about">About</a><a href="https://github.com/wwwyyyhhh0520">GitHub</a></div></nav></header>
+    <header><nav class="wrap"><a href="/"><strong>Wang / Notes</strong></a><div class="links"><a href="/blog">Blog</a><a href="/notes">Notes</a><a href="/projects">Projects</a><a href="/about">About</a><a href="https://github.com/wwwyyyhhh0520">GitHub</a></div></nav></header>
     <main class="wrap"><slot /></main>
-    <footer><div class="wrap">Wang · Building reliable AI agents for engineering software.</div></footer>
+    <footer><div class="wrap">Wang · 编程、AI、工程与持续学习。</div></footer>
   </body>
 </html>
