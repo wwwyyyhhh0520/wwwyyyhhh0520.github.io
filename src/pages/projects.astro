@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Projects | Wang">
+  <h1>Projects</h1>
+  <p>我更关注能进入真实工程环境、具有明确失败边界和评估方法的 Agent 系统。</p>
+  <section class="card">
+    <p class="muted">2026 · In progress</p>
+    <h2 style="margin-top:0">CAD Agent × MCP × SolidWorks</h2>
+    <p>一个面向工程软件的 Agent / Automation 项目。当前执行层覆盖 SolidWorks 工程图与装配体相关自动化，并通过 MCP 暴露工具接口、通过异步 Worker 执行长任务。</p>
+    <p><strong>Current architecture:</strong> LLM / Agent → MCP Tools → Worker → SolidWorks → Structured Result / Observation.</p>
+    <p><strong>Next:</strong> CAD State、Planner、Evaluator、Failure Recovery 与 Agent Benchmark。</p>
+    <div><span class="tag">Python</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span><span class="tag">Agent</span><span class="tag">Evaluation</span></div>
+  </section>
+</Layout>
