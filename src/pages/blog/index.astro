@@ -1,18 +1,33 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="Blog | Wang">
-  <h1>Lab Notes</h1>
-  <p>Agent × MCP × CAD 的工程记录：架构、实验、失败与复盘。</p>
-  <div class="card">
-    <p class="muted">2026-08-24 · CAD Agent</p>
-    <h3><a href="/blog/from-cad-automation-to-agent">从 CAD Automation 到 CAD Agent：为什么我要继续做 Agent 层</a></h3>
-    <p>当确定性 CAD 自动化已经可以工作后，Agent 层到底应该解决什么，而不是为了 Agent 而 Agent？</p>
-  </div>
-  <h2>Planned</h2>
-  <div class="grid">
-    <div class="card"><h3>MCP + Async Worker</h3><p>长时间 CAD 操作为什么不适合简单同步 Tool Call。</p></div>
-    <div class="card"><h3>Representing CAD State</h3><p>如何把复杂工程状态变成 LLM 可消费、又不会爆上下文的数据。</p></div>
-    <div class="card"><h3>Evaluating a CAD Agent</h3><p>从 task success 到 recovery rate，建立真正能比较版本的 benchmark。</p></div>
-  </div>
+<Layout title="Blog | Wang" description="Wang 的个人博客：编程、AI、Agent、CAD、算法与学习记录。">
+  <p class="eyebrow">BLOG</p>
+  <h1>写我正在学习和思考的东西。</h1>
+  <p class="lead">这里不只记录一个项目。编程、AI、Agent、CAD、算法、系统设计、论文阅读和阶段总结，只要值得以后回来再看，我都会写下来。</p>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">TOPICS</p><h2>内容分类</h2></div>
+    <div class="grid">
+      <div class="card"><h3>AI & Agent</h3><p>LLM、Agent、Tool Use、MCP、RAG、Evaluation，以及相关论文与实验。</p></div>
+      <div class="card"><h3>Programming</h3><p>Python、C++、工程实践、系统设计，以及值得记录的代码与踩坑。</p></div>
+      <div class="card"><h3>CAD & Engineering</h3><p>SolidWorks、CAD 自动化、几何表示和 AI × Engineering Software。</p></div>
+      <div class="card"><h3>Algorithms</h3><p>数据结构、算法题、解题方法，以及面试准备过程中值得沉淀的内容。</p></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">LATEST</p><h2>最近文章</h2></div>
+    <div class="card">
+      <p class="muted">2026-08-24 · AI & Agent · CAD</p>
+      <h3><a href="/blog/from-cad-automation-to-agent">从 CAD Automation 到 CAD Agent：为什么我要继续做 Agent 层</a></h3>
+      <p>当确定性 CAD 自动化已经可以工作后，Agent 层到底应该解决什么，而不是为了 Agent 而 Agent？</p>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">QUICK NOTES</p><h2>学习笔记</h2></div>
+    <p>短一些、更新更频繁的学习记录放在 Notes。它们可以是不完整的理解、论文摘要、算法复盘或者当天解决的一个技术问题。</p>
+    <a class="button" href="/notes">进入 Notes →</a>
+  </section>
 </Layout>
