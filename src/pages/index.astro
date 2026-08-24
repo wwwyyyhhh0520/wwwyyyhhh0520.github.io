@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout>
+  <section class="hero">
+    <span class="tag">AI Agent</span><span class="tag">MCP</span><span class="tag">CAD</span><span class="tag">SolidWorks</span>
+    <h1>Building agents that can work with engineering software.</h1>
+    <p>你好，我是 Wang。目前关注 AI Agent、Model Context Protocol 与 CAD 自动化，正在探索如何让 LLM 不只是“聊天”，而是可靠地理解工程状态、调用工具并完成真实 CAD 工作流。</p>
+    <div class="cta"><a class="button primary" href="/projects">查看项目</a><a class="button" href="/blog">阅读技术记录</a></div>
+  </section>
+
+  <h2>Current Focus</h2>
+  <div class="grid">
+    <div class="card"><h3>CAD Agent</h3><p>让 Agent 通过结构化工具操作 SolidWorks，并围绕 planning、state、observation 与 recovery 构建闭环。</p></div>
+    <div class="card"><h3>MCP & Tool Use</h3><p>研究 MCP tool interface、异步 Worker、长任务状态轮询，以及复杂软件工具调用的可靠性。</p></div>
+    <div class="card"><h3>Agent Evaluation</h3><p>从“Demo 能跑”走向可评估系统：task success、tool accuracy、failure recovery、latency 与 cost。</p></div>
+  </div>
+
+  <h2>Featured Project</h2>
+  <div class="card">
+    <p class="muted">AI × Engineering Software</p>
+    <h3>SolidWorks CAD Agent / Automation System</h3>
+    <p>围绕工程图生成、装配体审核、MCP 工具层与异步执行构建的 CAD 自动化系统。目前继续向 Agent planning、CAD state representation 与 benchmark 演进。</p>
+    <a href="/projects">Read project notes →</a>
+  </div>
+
+  <h2>Latest Notes</h2>
+  <div class="card"><h3><a href="/blog/from-cad-automation-to-agent">从 CAD Automation 到 CAD Agent：为什么我要继续做 Agent 层</a></h3><p>记录项目从确定性自动化向 Agentic workflow 演进时，我真正想解决的问题。</p></div>
+</Layout>
