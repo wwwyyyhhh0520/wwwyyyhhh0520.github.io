@@ -2,14 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout title="Projects | Wang">
-  <h1>Projects</h1>
-  <p>我更关注能进入真实工程环境、具有明确失败边界和评估方法的 Agent 系统。</p>
-  <section class="card">
-    <p class="muted">2026 · In progress</p>
-    <h2 style="margin-top:0">CAD Agent × MCP × SolidWorks</h2>
-    <p>一个面向工程软件的 Agent / Automation 项目。当前执行层覆盖 SolidWorks 工程图与装配体相关自动化，并通过 MCP 暴露工具接口、通过异步 Worker 执行长任务。</p>
-    <p><strong>Current architecture:</strong> LLM / Agent → MCP Tools → Worker → SolidWorks → Structured Result / Observation.</p>
-    <p><strong>Next:</strong> CAD State、Planner、Evaluator、Failure Recovery 与 Agent Benchmark。</p>
-    <div><span class="tag">Python</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span><span class="tag">Agent</span><span class="tag">Evaluation</span></div>
+  <p class="eyebrow">PROJECTS</p>
+  <h1>Systems, not just demos.</h1>
+  <p class="lead">我更关注能进入真实工程环境、具有明确执行边界、失败模式和评估方法的 Agent 系统。当前主线是把已有 SolidWorks 自动化能力演进为可靠的 CAD Agent。</p>
+
+  <section class="section-block">
+    <div class="project-card">
+      <div>
+        <p class="eyebrow">2026 · IN PROGRESS</p>
+        <h2>CAD Agent × MCP × SolidWorks</h2>
+        <p>一个面向工程软件的 Agent / Automation 系统。底层执行能力已经覆盖零件与装配体工程图生成、BOM、气泡标注与布局、螺纹差异审核、静态干涉候选检测等流程，并输出结构化审核结果与工程产物。</p>
+        <p>工具能力通过 MCP 暴露；长时间 CAD 操作交由独立 Worker 执行，调用方通过 <code>job_id</code> 查询任务状态，从而避免把模型推理过程与 SolidWorks 长任务生命周期绑定在一起。</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span><span class="tag">Async Worker</span><span class="tag">Structured Output</span><span class="tag">Regression</span></div>
+      </div>
+      <div class="architecture"><span>LLM / Agent</span><b>↓</b><span>MCP Tool Interface</span><b>↓</b><span>Async Worker</span><b>↓</b><span>SolidWorks</span><b>↓</b><span>JSON / PDF / Drawing</span></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">WHAT EXISTS TODAY</p><h2>Execution layer</h2></div>
+    <div class="grid">
+      <div class="card"><h3>Drawing Automation</h3><p>零件与装配体工程图自动生成，包含标准视图、等轴测、BOM 与气泡标注等工程图流程。</p></div>
+      <div class="card"><h3>Engineering Audit</h3><p>螺纹版本差异与静态干涉候选等自动审核能力，并保留“自动审核不等于工程设计批准”的边界。</p></div>
+      <div class="card"><h3>Layout Reliability</h3><p>针对气泡布局进行 leader crossing 检测与重规划，减少自动生成工程图中的布局冲突。</p></div>
+      <div class="card"><h3>Long-running Jobs</h3><p>MCP 调用返回 job_id，由 Worker 异步执行 SolidWorks 操作，并支持状态查询与结果隔离。</p></div>
+      <div class="card"><h3>Structured Artifacts</h3><p>流程可以产出 PDF、SLDDRW、JSON、CSV 与 Markdown 等结果，方便机器继续消费或人工审核。</p></div>
+      <div class="card"><h3>Regression</h3><p>通过自动化 regression 验证关键工作流，避免 CAD 自动化修改只在单个 Demo 上“看起来能跑”。</p></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">NEXT ITERATION</p><h2>Turning tools into an Agent system</h2></div>
+    <div class="grid">
+      <div class="card"><p class="kicker">State</p><h3>CAD State Representation</h3><p>把复杂 CAD 环境压缩为适合 LLM reasoning 的结构化 observation，而不是直接暴露大量原始 API 数据。</p></div>
+      <div class="card"><p class="kicker">Reasoning</p><h3>Planning & Replanning</h3><p>让模型根据任务和当前状态决定工具序列，并在执行结果与预期不一致时重新规划。</p></div>
+      <div class="card"><p class="kicker">Evaluation</p><h3>Agent Benchmark</h3><p>建立多步骤 CAD task set，评估 task success、tool accuracy、recovery、latency 与 failure categories。</p></div>
+    </div>
   </section>
 </Layout>
