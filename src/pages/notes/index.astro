@@ -1,5 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+
+const notes = (await getCollection('notes'))
+  .filter((note) => !note.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <Layout title="Notes | Wang" description="学习笔记、论文阅读、算法复盘和技术碎片。">
   <p class="eyebrow">NOTES</p>
@@ -7,20 +12,19 @@ import Layout from '../../layouts/Layout.astro';
   <p class="lead">这里放短笔记。目标不是每篇都写成完整教程，而是把学习过程留下来：今天弄懂了什么、哪里还没懂、解决了什么问题。</p>
 
   <section class="section-block">
-    <div class="section-head"><p class="eyebrow">CATEGORIES</p><h2>我会在这里记录</h2></div>
-    <div class="grid">
-      <div class="card"><h3>Daily Learning</h3><p>当天学到的概念、代码、工具和问题。</p></div>
-      <div class="card"><h3>Paper Reading</h3><p>论文的核心问题、方法、实验和自己的疑问。</p></div>
-      <div class="card"><h3>Algorithm Review</h3><p>算法题不是只留 AC 代码，而是记录识别模式和容易犯的错误。</p></div>
-      <div class="card"><h3>Debug Log</h3><p>值得保留的 bug、根因、排查路径和最终解决方案。</p></div>
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="card">
-      <p class="muted">2026-08-24 · Meta</p>
-      <h3>博客开始记录</h3>
-      <p>从今天开始，把学习过程从聊天记录、临时文件和脑子里搬到一个长期可检索的地方。</p>
+    <div class="section-head"><p class="eyebrow">ALL NOTES</p><h2>学习记录</h2></div>
+    <div class="post-list">
+      {notes.map((note) => (
+        <a class="post-row" href={`/notes/${note.id}`}>
+          <div>
+            <p class="muted post-meta">{note.data.date.toLocaleDateString('zh-CN')} · {note.data.category}</p>
+            <h3>{note.data.title}</h3>
+            <p>{note.data.description}</p>
+            <div>{note.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
+          </div>
+          <span class="post-arrow">→</span>
+        </a>
+      ))}
     </div>
   </section>
 </Layout>
