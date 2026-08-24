@@ -1,0 +1,46 @@
+---
+title: "从 CAD Automation 到 CAD Agent：为什么我要继续做 Agent 层"
+description: "当确定性 CAD 自动化已经可以工作后，Agent 层到底应该解决什么，而不是为了 Agent 而 Agent？"
+date: 2026-08-24
+category: "AI & Agent"
+tags: ["Agent", "MCP", "CAD", "SolidWorks"]
+draft: false
+---
+
+我的项目一开始并不是一个“AI Agent 项目”。更准确地说，它首先是一个 CAD automation system：让程序通过 SolidWorks API 执行工程图生成、装配体相关检查和结果导出。
+
+当这些确定性工作流逐渐能够稳定运行后，一个新的问题出现了：如果每一个流程都必须由开发者提前写死，那么系统能自动执行任务，却仍然不能根据工程上下文决定“下一步应该做什么”。这也是我开始引入 MCP 和 Agent 层的原因。
+
+## Automation 和 Agent 解决的是不同问题
+
+确定性自动化擅长的是：输入明确、步骤明确、结果可以验证的工作流。它应该继续存在，而且应该尽可能可靠。
+
+Agent 更适合承担上层决策，例如理解自然语言目标、拆分任务、根据当前 CAD state 选择工具，以及在某一步失败后决定重试、换策略还是请求人工确认。
+
+```text
+User Request
+    ↓
+Agent / Planner
+    ↓
+MCP Tool Layer
+    ↓
+Async Worker
+    ↓
+SolidWorks
+    ↓
+Structured Observation
+    ↓
+Evaluator → Continue / Replan / Stop
+```
+
+## 为什么 MCP 对这个项目有意义
+
+我不希望 LLM 直接知道大量 SolidWorks API 细节。底层 API 更适合被封装成具有清晰输入、输出和失败语义的工程能力，再通过 MCP 暴露给 Agent。
+
+这样做的重点并不是“用了 MCP”，而是形成边界：Agent 负责决策，工具负责确定性执行，Worker 隔离长时间 CAD 任务，而观察层把执行结果重新变成 Agent 可以理解的状态。
+
+## 下一阶段：State、Evaluation、Recovery
+
+接下来我最想解决的不是继续增加更多 CAD 命令，而是三个问题：如何表示 CAD state；如何建立 Agent benchmark；以及当工具超时、参数错误、CAD 状态异常时，Agent 能否可靠恢复。
+
+我会继续在这里记录这些实验，包括失败案例。目标不是做一个“看起来很智能”的 Demo，而是逐步回答一个更工程化的问题：**Agent 能否可靠地进入复杂工程软件并完成真实任务？**
