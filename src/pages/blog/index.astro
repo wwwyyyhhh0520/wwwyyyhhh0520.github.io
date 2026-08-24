@@ -1,5 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const categories = [...new Set(posts.map((post) => post.data.category))];
 ---
 <Layout title="Blog | Wang" description="Wang 的个人博客：编程、AI、Agent、CAD、算法与学习记录。">
   <p class="eyebrow">BLOG</p>
@@ -8,20 +15,23 @@ import Layout from '../../layouts/Layout.astro';
 
   <section class="section-block">
     <div class="section-head"><p class="eyebrow">TOPICS</p><h2>内容分类</h2></div>
-    <div class="grid">
-      <div class="card"><h3>AI & Agent</h3><p>LLM、Agent、Tool Use、MCP、RAG、Evaluation，以及相关论文与实验。</p></div>
-      <div class="card"><h3>Programming</h3><p>Python、C++、工程实践、系统设计，以及值得记录的代码与踩坑。</p></div>
-      <div class="card"><h3>CAD & Engineering</h3><p>SolidWorks、CAD 自动化、几何表示和 AI × Engineering Software。</p></div>
-      <div class="card"><h3>Algorithms</h3><p>数据结构、算法题、解题方法，以及面试准备过程中值得沉淀的内容。</p></div>
-    </div>
+    <div class="tags">{categories.map((category) => <span class="tag">{category}</span>)}</div>
   </section>
 
   <section class="section-block">
-    <div class="section-head"><p class="eyebrow">LATEST</p><h2>最近文章</h2></div>
-    <div class="card">
-      <p class="muted">2026-08-24 · AI & Agent · CAD</p>
-      <h3><a href="/blog/from-cad-automation-to-agent">从 CAD Automation 到 CAD Agent：为什么我要继续做 Agent 层</a></h3>
-      <p>当确定性 CAD 自动化已经可以工作后，Agent 层到底应该解决什么，而不是为了 Agent 而 Agent？</p>
+    <div class="section-head"><p class="eyebrow">ARTICLES</p><h2>全部文章</h2></div>
+    <div class="post-list">
+      {posts.map((post) => (
+        <a class="post-row" href={`/blog/${post.id}`}>
+          <div>
+            <p class="muted post-meta">{post.data.date.toLocaleDateString('zh-CN')} · {post.data.category}</p>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+            <div>{post.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
+          </div>
+          <span class="post-arrow">→</span>
+        </a>
+      ))}
     </div>
   </section>
 
