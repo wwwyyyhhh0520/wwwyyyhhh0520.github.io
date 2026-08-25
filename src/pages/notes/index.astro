@@ -5,26 +5,103 @@ import Layout from '../../layouts/Layout.astro';
 const notes = (await getCollection('notes'))
   .filter((note) => !note.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const groups = [
+  {
+    key: 'algorithms',
+    label: 'Algorithms',
+    title: '算法学习',
+    description: 'C++ / Python · 数据结构 · 搜索 · DP · 图论 · 数学',
+    match: (note) => note.data.category === 'Algorithms',
+  },
+  {
+    key: 'ai-science',
+    label: 'AI FOR SCIENCE',
+    title: 'AI for Science',
+    description: 'PINN · Neural Network · PDE · Scientific Computing',
+    match: (note) => note.data.category === 'AI & Scientific Computing',
+  },
+  {
+    key: 'other',
+    label: 'OTHER NOTES',
+    title: '其他学习记录',
+    description: '暂时还没有形成独立专题的学习记录。',
+    match: (note) => !['Algorithms', 'AI & Scientific Computing'].includes(note.data.category),
+  },
+].map((group) => ({ ...group, notes: notes.filter(group.match) })).filter((group) => group.notes.length > 0);
 ---
 <Layout title="Notes | Wang" description="学习笔记、论文阅读、算法复盘和技术碎片。">
   <p class="eyebrow">NOTES</p>
-  <h1>Learning in public.</h1>
-  <p class="lead">这里放短笔记。目标不是每篇都写成完整教程，而是把学习过程留下来：今天弄懂了什么、哪里还没懂、解决了什么问题。</p>
+  <h1>Learning notes.</h1>
+  <p class="lead">按主题整理我的学习记录。这里更像一份持续生长的个人 Wiki，而不是按时间堆叠的动态列表。</p>
 
-  <section class="section-block">
-    <div class="section-head"><p class="eyebrow">ALL NOTES</p><h2>学习记录</h2></div>
-    <div class="post-list">
-      {notes.map((note) => (
-        <a class="post-row" href={`/notes/${note.id}`}>
-          <div>
-            <p class="muted post-meta">{note.data.date.toLocaleDateString('zh-CN')} · {note.data.category}</p>
-            <h3>{note.data.title}</h3>
-            <p>{note.data.description}</p>
-            <div>{note.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
-          </div>
-          <span class="post-arrow">→</span>
+  <nav class="topic-tree" aria-label="Notes topics">
+    <p class="eyebrow">TOPICS</p>
+    <div class="topic-grid">
+      {groups.map((group) => (
+        <a class="topic-card" href={`#${group.key}`}>
+          <span class="topic-title">{group.title}</span>
+          <span class="topic-count">{group.notes.length} 篇</span>
+          <span class="topic-description">{group.description}</span>
         </a>
       ))}
     </div>
-  </section>
+  </nav>
+
+  <div class="note-groups">
+    {groups.map((group) => (
+      <section class="section-block note-group" id={group.key}>
+        <div class="section-head group-head">
+          <div>
+            <p class="eyebrow">{group.label}</p>
+            <h2>{group.title}</h2>
+          </div>
+          <p class="group-description">{group.description}</p>
+        </div>
+
+        <div class="wiki-list">
+          {group.notes.map((note) => (
+            <a class="wiki-row" href={`/notes/${note.id}`}>
+              <div class="wiki-main">
+                <h3>{note.data.title}</h3>
+                <p>{note.data.description}</p>
+              </div>
+              <div class="wiki-side">
+                <span class="muted">{note.data.date.toLocaleDateString('zh-CN')}</span>
+                <span class="post-arrow">→</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
 </Layout>
+
+<style>
+  .topic-tree { margin: 4.5rem 0 5rem; }
+  .topic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .topic-card { display: flex; flex-direction: column; gap: .55rem; min-height: 150px; padding: 1.4rem; border: 1px solid var(--line); border-radius: 14px; text-decoration: none; transition: transform .2s ease, border-color .2s ease; }
+  .topic-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .topic-title { color: var(--text); font-size: 1.15rem; font-weight: 700; }
+  .topic-count { color: var(--accent); font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
+  .topic-description, .group-description { color: var(--muted); line-height: 1.7; }
+  .note-groups { display: grid; gap: 4rem; }
+  .note-group { scroll-margin-top: 2rem; }
+  .group-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+  .group-head h2 { margin-bottom: 0; }
+  .group-description { max-width: 520px; margin: 0 0 .35rem; text-align: right; }
+  .wiki-list { margin-top: 1.5rem; border-top: 1px solid var(--line); }
+  .wiki-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem; align-items: center; padding: 1.35rem .15rem; border-bottom: 1px solid var(--line); text-decoration: none; }
+  .wiki-main h3 { margin: 0 0 .45rem; font-size: 1.08rem; }
+  .wiki-main p { margin: 0; color: var(--muted); line-height: 1.65; }
+  .wiki-side { display: flex; align-items: center; gap: 1.25rem; white-space: nowrap; font-size: .82rem; }
+  @media (max-width: 800px) {
+    .topic-grid { grid-template-columns: 1fr; }
+    .topic-card { min-height: auto; }
+    .group-head { display: block; }
+    .group-description { margin-top: .75rem; text-align: left; }
+    .wiki-row { grid-template-columns: 1fr; gap: .75rem; }
+    .wiki-side { justify-content: space-between; }
+  }
+</style>
