@@ -11,9 +11,9 @@ import Layout from '../layouts/Layout.astro';
       <div>
         <p class="eyebrow">2026 · IN PROGRESS</p>
         <h2>CAD Agent × MCP × SolidWorks</h2>
-        <p>一个面向工程软件的 Agent / Automation 系统。底层执行能力已经覆盖零件与装配体工程图生成、BOM、气泡标注与布局、螺纹差异审核、静态干涉候选检测等流程，并输出结构化审核结果与工程产物。</p>
-        <p>工具能力通过 MCP 暴露；长时间 CAD 操作交由独立 Worker 执行，调用方通过 <code>job_id</code> 查询任务状态，从而避免把模型推理过程与 SolidWorks 长任务生命周期绑定在一起。</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span><span class="tag">Async Worker</span><span class="tag">Structured Output</span><span class="tag">Regression</span></div>
+        <p>一个面向机械工程图自动化的 Agent 系统。当前主线是从 SolidWorks 3D 模型提取可证明的工程事实，生成 drawing plan，并通过原生 SolidWorks API 创建与验证二维工程图。</p>
+        <p>工具能力通过 MCP 暴露；模型事实、工程规划、CAD 执行和验收相互分离。LLM 负责编排与决策，但尺寸值必须来自可验证的 CAD 几何事实。</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">C#</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span><span class="tag">Engineering Facts</span><span class="tag">Regression</span></div><div class="cta"><a class="button primary" href="/projects/solidworks-agent">View project →</a></div>
       </div>
       <div class="architecture"><span>LLM / Agent</span><b>↓</b><span>MCP Tool Interface</span><b>↓</b><span>Async Worker</span><b>↓</b><span>SolidWorks</span><b>↓</b><span>JSON / PDF / Drawing</span></div>
     </div>
