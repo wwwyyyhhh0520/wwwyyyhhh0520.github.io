@@ -2,9 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 ---
 <Layout title="SolidWorks Agent | Wang">
-  <p class="eyebrow">2026 · WORK IN PROGRESS</p>
+  <p class="eyebrow">2026 · ENGINEERING PROJECT</p>
   <h1>Agent × MCP × SolidWorks</h1>
-  <p class="lead">一个面向机械工程图自动化的实验性 Agent 系统：从 SolidWorks 3D 模型提取可证明的工程事实，生成绘图计划，再通过原生 SolidWorks API 创建并验证二维工程图。</p>
+  <p class="lead">一个面向机械工程图自动化的 Agent 系统：从 SolidWorks 3D 模型提取可证明的工程事实，生成绘图计划，再通过原生 SolidWorks API 创建并验证二维工程图。</p>
 
   <div class="cta">
     <a class="button" href="/projects">← Projects</a>
@@ -12,54 +12,88 @@ import Layout from '../../layouts/Layout.astro';
   </div>
 
   <section class="section-block">
-    <div class="section-head"><p class="eyebrow">ARCHITECTURE</p><h2>Facts before drawing</h2></div>
+    <div class="section-head"><p class="eyebrow">MOTIVATION</p><h2>From CAD scripts to engineering agents</h2></div>
+    <div class="card">
+      <p>传统 CAD 自动化通常依赖一次性脚本，而工程知识分散在工程师经验、历史图纸和项目规范中。本项目尝试把机械设计流程转化为可复用的 AI 工程能力。</p>
+      <div class="architecture"><span>Requirement</span><b>↓</b><span>Semantic Facts</span><b>↓</b><span>Drawing Plan</span><b>↓</b><span>SolidWorks Native Execution</span><b>↓</b><span>Validation</span></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">ARCHITECTURE</p><h2>Agent, Skill and MCP</h2></div>
     <div class="project-card">
       <div>
-        <h3>Agent orchestration, deterministic engineering facts</h3>
-        <p>LLM / Agent 负责工具编排与决策，但尺寸值不由语言模型猜测。系统把模型事实、工程规划、CAD 执行和验收拆成独立层，并尽量让每个最终标注都能回溯到模型几何证据。</p>
-        <div class="tags"><span class="tag">Agent</span><span class="tag">MCP</span><span class="tag">C#</span><span class="tag">Python</span><span class="tag">SolidWorks API</span><span class="tag">Regression</span></div>
+        <h3>Engineering workflow orchestration</h3>
+        <p>Agent 负责理解任务和协调执行；Skill 封装工程流程、模板和规则；MCP 提供 Agent 与外部工具之间的标准连接方式。</p>
+        <div class="tags"><span class="tag">Agent</span><span class="tag">Skill</span><span class="tag">MCP</span><span class="tag">SolidWorks API</span></div>
       </div>
-      <div class="architecture"><span>Agent</span><b>↓</b><span>MCP Tools</span><b>↓</b><span>Semantic / Facts Layer</span><b>↓</b><span>Drawing Planner</span><b>↓</b><span>SolidWorks Runtime</span><b>↓</b><span>SLDDRW / PDF / Validation</span></div>
+      <div class="architecture"><span>User</span><b>↓</b><span>Agent</span><b>↓</b><span>Skill Workflow</span><b>↓</b><span>MCP Tools</span><b>↓</b><span>SolidWorks Runtime</span></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">REUSABLE ASSET</p><h2>machining-part-design-workflow Skill</h2></div>
+    <div class="card">
+      <p>项目沉淀的不只是代码，而是一套可交接的工程工作流：</p>
+      <pre>machining-part-design-workflow
+├── SKILL.md
+├── templates
+├── prompts
+├── examples
+├── docs
+└── mcp</pre>
+      <p>其他工程师可以基于相同输入模板、执行规则和报告格式复用该能力。</p>
     </div>
   </section>
 
   <section class="section-block">
     <div class="section-head"><p class="eyebrow">PIPELINE</p><h2>3D model → validated drawing</h2></div>
     <div class="grid">
-      <div class="card"><p class="kicker">01 · Inspect</p><h3>Model Semantics</h3><p>从零件模型提取 feature、拓扑、孔、包围范围与可证明的几何证据，形成结构化 semantic JSON。</p></div>
-      <div class="card"><p class="kicker">02 · Prove</p><h3>Dimensionable Facts</h3><p>把可标注事实与工程语义分开。尺寸候选必须来自模型证据，而不是由 LLM 推测数值。</p></div>
-      <div class="card"><p class="kicker">03 · Plan</p><h3>Drawing Planning</h3><p>根据视图、语义与去重规则生成 drawing plan，并把事实层与 SolidWorks 执行层解耦。</p></div>
-      <div class="card"><p class="kicker">04 · Execute</p><h3>Native CAD Objects</h3><p>运行时重新绑定真实可选择实体，并调用 SolidWorks 原生尺寸与孔标注 API；无法证明的标注宁可省略。</p></div>
-      <div class="card"><p class="kicker">05 · Validate</p><h3>Save / Reopen</h3><p>生成后保存并重新打开工程图，验证原生对象和值是否持久化，避免只依赖屏幕上“看起来正确”。</p></div>
-      <div class="card"><p class="kicker">06 · Evaluate</p><h3>Regression</h3><p>使用多模型回归跟踪覆盖率、错误标注、重复标注、生命周期与 PDF 输出问题。</p></div>
+      <div class="card"><p class="kicker">01 · Inspect</p><h3>Model Semantics</h3><p>提取 feature、topology、hole、包围范围和工程证据。</p></div>
+      <div class="card"><p class="kicker">02 · Prove</p><h3>Engineering Facts</h3><p>尺寸必须来自模型事实，不由语言模型猜测。</p></div>
+      <div class="card"><p class="kicker">03 · Plan</p><h3>Drawing Planning</h3><p>生成视图、标注和执行计划。</p></div>
+      <div class="card"><p class="kicker">04 · Execute</p><h3>Native CAD Objects</h3><p>调用 SolidWorks 原生 dimension 与 callout API。</p></div>
+      <div class="card"><p class="kicker">05 · Validate</p><h3>Save / Reopen</h3><p>验证原生对象和值的持久化。</p></div>
+      <div class="card"><p class="kicker">06 · Deliver</p><h3>Engineering Package</h3><p>输出 CAD、STEP、图纸、报告和评审资料。</p></div>
     </div>
   </section>
 
   <section class="section-block">
-    <div class="section-head"><p class="eyebrow">VERIFIED SO FAR</p><h2>Current engineering evidence</h2></div>
-    <div class="grid">
-      <div class="card"><h3>Agent → MCP → SolidWorks</h3><p>已验证 MCP 工具可以驱动语义提取器进入真实 SolidWorks 会话并返回结构化模型信息。</p></div>
-      <div class="card"><h3>Exact Overall Dimensions</h3><p>整体 X / Y / Z 尺寸路径已完成原生尺寸创建、SystemValue 校验以及保存 / 重开验证；错误尺寸策略为不持久化。</p></div>
-      <div class="card"><h3>Physical Hole Facts</h3><p>当前验证模型中，body topology 可识别 11 个物理内部开口，并通过 feature-history topology evolution 区分直接来源与派生 / 镜像实例。</p></div>
-      <div class="card"><h3>Native Hole Callout</h3><p>仍在验证中。当前工作重点是把物理孔证据绑定到 drawing entity，并完成 GetCorresponding → native hole callout → reopen 的闭环。</p></div>
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="section-head"><p class="eyebrow">DESIGN RULES</p><h2>Correctness over coverage</h2></div>
-    <div class="grid">
-      <div class="card"><h3>No guessed dimensions</h3><p>LLM 不生成尺寸数值。最终尺寸必须由 CAD 几何事实和原生 Dimension.SystemValue 共同验证。</p></div>
-      <div class="card"><h3>No fake annotations</h3><p>目标是 SolidWorks 原生 dimension / hole callout，而不是用普通文本模拟工程标注。</p></div>
-      <div class="card"><h3>Fail closed</h3><p>实体重绑定失败、证据不足或原生值不匹配时，标注被省略或删除，而不是以低置信结果继续。</p></div>
-      <div class="card"><h3>Generalization first</h3><p>规则以几何与工程语义为依据，避免针对单一模型名称、尺寸或坐标写特例。</p></div>
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="section-head"><p class="eyebrow">V1 EXIT CRITERIA</p><h2>What “done” means</h2></div>
+    <div class="section-head"><p class="eyebrow">ARCHITECTURE EVOLUTION</p><h2>From inline implementation to reusable pipeline</h2></div>
     <div class="card">
-      <p>当前 V1 以可验证的工程结果作为完成条件：孔实例 accounting 达到完整覆盖且原生孔标注无错误；关键尺寸正确覆盖率达到目标，同时保持错误尺寸与重复尺寸为零；工程图通过 save / reopen 验证，并完成 PDF 视觉 QA。</p>
-      <p class="muted">本页面只展示通用架构、方法与可公开的验证结论。真实工程模型、内部零件信息、客户数据、公司标准和由其派生的几何产物不公开。</p>
+      <pre>Inline Annotation Logic
+          ↓
+ExecuteAnnotationCreation Router
+          ↓
+AnnotationExecutionRequest
+          ↓
+ResolvedAnnotationExecutionContext
+          ↓
+OverallExecutionContext
+          ↓
+Probe → Commit → Registration</pre>
+      <p>迁移过程中保持单一算法来源，不复制 candidate search、probe 或 validation 逻辑。</p>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">ENGINEERING CHALLENGES</p><h2>Validation lessons</h2></div>
+    <div class="grid">
+      <div class="card"><h3>Semantic Frame Evidence</h3><p>旧 loader 未识别 nested exact-envelope 数据结构。通过适配已有 semantic artifact 解决，而不是重新计算几何。</p></div>
+      <div class="card"><h3>SolidWorks COM Lifecycle</h3><p>AddHoleCallout2 调用验证过程中发现同步 COM 生命周期问题，采用诊断记录和 fail-closed 策略。</p></div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head"><p class="eyebrow">DELIVERY</p><h2>Final project package</h2></div>
+    <div class="card">
+      <ul>
+        <li>机加件数字设计工作流</li>
+        <li>machining-part-design-workflow Skill 包</li>
+        <li>需求、CAD 对比、工程图、评审模板</li>
+        <li>MCP / Script 编排入口说明</li>
+        <li>CAD、STEP、工程图和设计评审资料</li>
+      </ul>
     </div>
   </section>
 </Layout>
